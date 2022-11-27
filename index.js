@@ -3,6 +3,7 @@ require("./src/db/mongoose");
 const cors = require("cors");
 // const userRouter = require("./src/routers/user");
 const userRouter = require("./src/routers/user");
+const dotenv = require("dotenv");
 const feedRouter = require("./src/routers/feed");
 const admin = require("./src/routers/admin");
 const app = express();
@@ -24,7 +25,7 @@ app.use(feedRouter);
 
 app.get("/*", function (req, res) {
   res.sendFile(
-    path.join(__dirname, "/frontend/build/index.html"),
+    // path.join(__dirname, "/frontend/build/index.html"),
     function (err) {
       if (err) {
         res.status(500).send(err);

@@ -7,31 +7,31 @@ const multer = require("multer");
 const sharp = require("sharp");
 const router = new express.Router();
 
-const sendMail = async (mail, otp) => {
-  const msg = {
-    from: "alumni@jspmrscoe.edu.in",
-    to: mail,
-    subject: "one time password",
-    text: `Your one time password for the alumni portal is ${otp}`,
-  };
-  nodemailer
-    .createTransport({
-      service: "gmail",
-      auth: {
-        user: "alumni@jspmrscoe.edu.in",
-        pass: "password",
-      },
-      port: 465,
-      host: "smtp.gmail.com",
-    })
-    .sendMail(msg, (err) => {
-      if (err) {
-        return new Error("Error occure");
-      } else {
-        return;
-      }
-    });
-};
+// const sendMail = async (mail, otp) => {
+//   const msg = {
+//     from: "alumni@jspmrscoe.edu.in",
+//     to: mail,
+//     subject: "one time password",
+//     text: `Your one time password for the alumni portal is ${otp}`,
+//   };
+//   nodemailer
+//     .createTransport({
+//       service: "gmail",
+//       auth: {
+//         user: "alumni@jspmrscoe.edu.in",
+//         pass: "password",
+//       },
+//       port: 465,
+//       host: "smtp.gmail.com",
+//     })
+//     .sendMail(msg, (err) => {
+//       if (err) {
+//         return new Error("Error occure");
+//       } else {
+//         return;
+//       }
+//     });
+// };
 
 router.post("/users", async (req, res) => {
   const email = req.body.email;
@@ -42,39 +42,39 @@ router.post("/users", async (req, res) => {
     }
   }
   const user = new User(req.body);
-  const otp = Math.floor(1000 + Math.random() * 9000);
-  user.otp = otp;
+  // const otp = Math.floor(1000 + Math.random() * 9000);
+  //user.otp = otp;
   try {
     await user.save();
-    await sendMail(user.email, otp);
+    // await sendMail(user.email, otp);
 
     res.status(201).send({ user });
   } catch (error) {
-    // console.log(error);
-    res.status(400).send(error);
+    // console.log("Failed");
+    res.status(401).send(error);
   }
 });
-router.post("/users/verifyEmail", async (req, res) => {
-  const email = req.body.email;
-  const otp = req.body.otp;
-  const user = await User.findOne({ email });
-  if (!user) {
-    throw new Error(`Invalid email`);
-  }
+// router.post("/users/verifyEmail", async (req, res) => {
+//   const email = req.body.email;
+//   //  const otp = req.body.otp;
+//   const user = await User.findOne({ email });
+//   if (!user) {
+//     throw new Error(`Invalid email`);
+//   }
 
-  try {
-    if (Number(otp) != Number(user.otp)) {
-      throw new Error(`OTP not match`);
-    }
-    user.emailVerify = true;
-    await user.save();
-    const token = await user.generateAuthToken();
-    res.status(201).send({ user, token });
-  } catch (error) {
-    console.log(error);
-    res.status(400).send(error);
-  }
-});
+//   try {
+//     // if (Number(otp) != Number(user.otp)) {
+//     //   throw new Error(`OTP not match`);
+//     // }
+//     user.emailVerify = true;
+//     await user.save();
+//     const token = await user.generateAuthToken();
+//     res.status(201).send({ user, token });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(400).send(error);
+//   }
+// });
 
 // router.post("/users/login", async (req, res) => {
 //   try {
@@ -342,52 +342,52 @@ router.post("/users/me/findAlumni", auth, async (req, res) => {
 //     });
 // };
 
-router.post("/users/forgetPassword", async (req, res) => {
-  try {
-    const email = req.body.email;
-    const user = await User.findOne({ email }).select({ email: 1 });
-    if (!user) {
-      throw new Error(`Invalid email`);
-    }
-    const otp = Math.floor(1000 + Math.random() * 9000);
-    sendMail(email, otp)
-      .then(() => {
-        user.otp = otp;
-      })
-      .catch(() => {
-        throw new Error(`Errore occure`);
-      });
+// router.post("/users/forgetPassword", async (req, res) => {
+//   try {
+//     const email = req.body.email;
+//     const user = await User.findOne({ email }).select({ email: 1 });
+//     if (!user) {
+//       throw new Error(`Invalid email`);
+//     }
+//     const otp = Math.floor(1000 + Math.random() * 9000);
+//     sendMail(email, otp)
+//       .then(() => {
+//         user.otp = otp;
+//       })
+//       .catch(() => {
+//         throw new Error(`Errore occure`);
+//       });
 
-    await user.save();
-    res.send({ message: `user is valid` });
-  } catch (e) {
-    // console.log(e.message);
-    res.status(400).send({ message: e.message });
-  }
-});
+//     await user.save();
+//     res.send({ message: `user is valid` });
+//   } catch (e) {
+//     // console.log(e.message);
+//     res.status(400).send({ message: e.message });
+//   }
+// });
 
-router.post("/users/verifyOTP", async (req, res) => {
-  try {
-    const email = req.body.email;
-    const otp = req.body.otp;
-    const user = await User.findOne({ email }).select({
-      email: 1,
-      otp: 1,
-      tokens: 1,
-    });
-    if (!user) {
-      throw new Error(`Invalid email`);
-    }
-    if (Number(otp) != Number(user.otp)) {
-      throw new Error(`OTP not match`);
-    }
-    const token = await user.generateAuthToken();
-    res.send({ message: `OTP Match`, token });
-  } catch (e) {
-    // console.log(e.message);
-    res.status(400).send({ message: e.message });
-  }
-});
+// router.post("/users/verifyOTP", async (req, res) => {
+//   try {
+//     const email = req.body.email;
+//     const otp = req.body.otp;
+//     const user = await User.findOne({ email }).select({
+//       email: 1,
+//       otp: 1,
+//       tokens: 1,
+//     });
+//     if (!user) {
+//       throw new Error(`Invalid email`);
+//     }
+//     if (Number(otp) != Number(user.otp)) {
+//       throw new Error(`OTP not match`);
+//     }
+//     const token = await user.generateAuthToken();
+//     res.send({ message: `OTP Match`, token });
+//   } catch (e) {
+//     // console.log(e.message);
+//     res.status(400).send({ message: e.message });
+//   }
+// });
 
 router.delete("/users/me", auth, async (req, res) => {
   try {
