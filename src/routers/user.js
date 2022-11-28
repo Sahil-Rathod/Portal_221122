@@ -96,15 +96,25 @@ router.post("/users/login", async (req, res) => {
       req.body.email,
       req.body.password
     );
-    if (user.emailVerify === false || user.emailVerify === "false") {
-      throw new Error("Invalide user");
-    }
+    // if (user.emailVerify === false || user.emailVerify === "false") {
+    //   throw new Error("Invalide user4545454544");
+    // }
     const token = await user.generateAuthToken();
     res.send({ user, token });
   } catch (e) {
     console.log(e);
-    res.status(400).send();
+    // res.status(400).send();
   }
+  // try {
+  //   const { email, password } = req.body;
+  //   if (!email || !password) {
+  //     return res.status(400).json({ message: "Invalid Credentials" });
+  //   }
+  //   const userLogin = await User.findOne({ email, password });
+  //   console.log(userLogin);
+  // } catch (e) {
+  //   console.log(e);
+  // }
 });
 
 router.post("/users/logout", auth, async (req, res) => {
