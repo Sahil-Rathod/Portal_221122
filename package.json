@@ -1,12 +1,12 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "homepage": "http://rscoealumni.in/",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+    "dev": "nodemon index.js"
   },
   "author": "Umesh Patel",
   "license": "ISC",
