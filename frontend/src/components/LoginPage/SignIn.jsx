@@ -33,7 +33,7 @@ const SignIn = () => {
         }),
       };
       const response = await fetch(
-        "https://alumni-portal.onrender.com/users/login",
+        "users/login",
         // `/users/login`,
         requestOptions
       );
