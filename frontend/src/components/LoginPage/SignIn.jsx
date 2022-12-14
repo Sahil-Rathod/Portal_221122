@@ -33,7 +33,7 @@ const SignIn = () => {
         }),
       };
       const response = await fetch(
-        "users/login",
+        "/users/login",
         // `/users/login`,
         requestOptions
       );
