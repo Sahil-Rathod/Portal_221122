@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://alumni-portal.onrender.com/",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@testing-library/jest-dom": "^5.16.1",
@@ -50,6 +51,5 @@
   },
   "experimental": {
     "esmExternals": false
-  },
-  "proxy": "http://localhost:5000"
+  }
 }

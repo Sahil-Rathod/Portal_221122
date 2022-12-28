@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "homepage": "http://rscoealumni.in/",
   "description": "",
   "main": "index.js",
   "scripts": {
